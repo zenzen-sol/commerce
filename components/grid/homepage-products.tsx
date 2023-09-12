@@ -8,7 +8,15 @@ import Link from 'next/link';
 import Label from '../label';
 import { GridTileImage } from './tile';
 
-function HomepageProductsItem({ item, priority }: { item: Product; priority?: boolean }) {
+function HomepageProductsItem({
+  item,
+  priority,
+  locale
+}: {
+  item: Product;
+  priority?: boolean;
+  locale?: SupportedLocale;
+}) {
   const size = item?.variants?.[0]?.selectedOptions?.find((option) => option.name === 'Size');
   const image = item?.variants?.[0]?.image;
 
@@ -46,7 +54,11 @@ function HomepageProductsItem({ item, priority }: { item: Product; priority?: bo
           </span>
         </span>
       </Link>
-      <InlineAddToCart variants={item.variants} availableForSale={item.availableForSale} />
+      <InlineAddToCart
+        variants={item.variants}
+        availableForSale={item.availableForSale}
+        locale={locale}
+      />
     </div>
   ) : null;
 }
@@ -70,9 +82,9 @@ export async function HomepageProducts({ lang }: { lang?: SupportedLocale }) {
         'grid-rows-3 md:grid-rows-1'
       )}
     >
-      <HomepageProductsItem item={firstProduct} priority={true} />
-      <HomepageProductsItem item={secondProduct} priority={true} />
-      <HomepageProductsItem item={thirdProduct} />
+      <HomepageProductsItem item={firstProduct} locale={lang} priority={true} />
+      <HomepageProductsItem item={secondProduct} locale={lang} priority={true} />
+      <HomepageProductsItem item={thirdProduct} locale={lang} />
     </section>
   );
 }

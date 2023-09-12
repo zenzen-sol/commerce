@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { addItem } from 'components/cart/actions';
+import { SupportedLocale } from 'components/layout/navbar/language-control';
 import LoadingDots from 'components/loading-dots';
 import { ProductVariant } from 'lib/shopify/types';
 import { useTranslations } from 'next-intl';
@@ -10,10 +11,12 @@ import { useTransition } from 'react';
 
 export function AddToCart({
   variants,
-  availableForSale
+  availableForSale,
+  locale
 }: {
   variants: ProductVariant[];
   availableForSale: boolean;
+  locale?: SupportedLocale;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -43,7 +46,10 @@ export function AddToCart({
         if (!availableForSale || !selectedVariantId) return;
 
         startTransition(async () => {
-          const error = await addItem(selectedVariantId);
+          const error = await addItem({
+            variantId: selectedVariantId,
+            language: locale?.toUpperCase()
+          });
 
           if (error) {
             // Trigger the error boundary in the root error.js

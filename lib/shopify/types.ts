@@ -189,6 +189,10 @@ export type ShopifyCartOperation = {
 
 export type ShopifyCreateCartOperation = {
   data: { cartCreate: { cart: ShopifyCart } };
+  variables: {
+    country?: string;
+    language?: string;
+  };
 };
 
 export type ShopifyAddToCartOperation = {
