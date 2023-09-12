@@ -197,10 +197,20 @@ const reshapeProducts = (products: ShopifyProduct[]) => {
   return reshapedProducts;
 };
 
-export async function createCart(): Promise<Cart> {
+export async function createCart({
+  country,
+  language
+}: {
+  country?: string;
+  language?: string;
+}): Promise<Cart> {
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
-    cache: 'no-store'
+    cache: 'no-store',
+    variables: {
+      country,
+      language
+    }
   });
 
   return reshapeCart(res.body.data.cartCreate.cart);
