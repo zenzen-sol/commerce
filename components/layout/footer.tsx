@@ -32,7 +32,7 @@ export default async function Footer({
           'text-sm md:flex-row md:gap-12'
         )}
       >
-        <div className="w-full md:w-[60%]">
+        <div className="w-full md:min-w-[60%]">
           <div className="flex flex-col space-y-24">
             <NewsletterFooter />
             <div className="hidden flex-row items-end space-x-12 pt-24 md:flex">
