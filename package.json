@@ -4,7 +4,7 @@
   "packageManager": "yarn@3.6.1",
   "engines": {
     "node": ">=18",
-    "pnpm": ">=7"
+    "yarn": ">=3"
   },
   "scripts": {
     "dev": "next dev",
@@ -14,7 +14,7 @@
     "lint-staged": "lint-staged",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
-    "test": "pnpm lint && pnpm prettier:check"
+    "test": "yarn lint && yarn prettier:check"
   },
   "git": {
     "pre-commit": "lint-staged"
