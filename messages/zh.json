@@ -35,8 +35,8 @@
           "body": "我們的酒是在海拔940米上，日本少數被大自然眷顧的環境下釀製。許多的酒廠都使用穩定性較高的井水，而narai則使用海拔1,000米以上的天然山水。源自信濃川和木曾川的分水點附近的山水是日本少數擁有「硬度25以下」的特徵，因此有透明感，口感圓潤和順滑。"
         },
         "location": {
-          "title": "長野",
-          "subtitle": "奈良井宿で醸す",
+          "title": "在長野縣",
+          "subtitle": "奈良井宿釀造",
           "body": "位於長野縣被稱為日本最長的宿場町「奈良井宿」的歷史街區裡釀造。奈良井的冬季氣溫會降至零下20度，山水會結冰。寒冬過後，周圍新長的綠意盎然，空氣清新宜人的季節接踵而來。秋季時，紅葉令山林染上鮮艷的顏色。這個地方具有日本特色的四季，讓人感愛到大自然之美。",
           "button": "narai有關"
         },
@@ -228,7 +228,7 @@
       },
       "director": {
         "label": "執行長",
-        "value": "Kou William Sunberg"
+        "value": "Kou William Sundberg"
       },
       "since": {
         "label": "創業年",
@@ -497,7 +497,7 @@
       },
       "representative": {
         "label": "責任者",
-        "value": "執行長 Kou William Sunberg"
+        "value": "執行長 Kou William Sundberg"
       },
       "address": {
         "label": "住所",
