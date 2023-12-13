@@ -54,8 +54,6 @@ export default async function HomePage({
     cart = await getCart(cartId);
   }
 
-  // console.debug('locale', getShopifyLocale({ locale }));
-
   const promotedItem: Product | undefined = await getProduct({
     handle: 'gift-bag-and-postcard-set',
     language: getShopifyLocale({ locale })
