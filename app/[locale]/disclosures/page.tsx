@@ -2,6 +2,7 @@ import Footer from 'components/layout/footer';
 import { SupportedLocale } from 'components/layout/navbar/language-control';
 
 import Navbar from 'components/layout/navbar';
+import { getShopifyLocale } from 'lib/locales';
 import { getCart, getProduct } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -37,7 +38,7 @@ export default async function DisclosuresPage({
 
   const promotedItem: Product | undefined = await getProduct({
     handle: 'gift-bag-and-postcard-set',
-    language: locale?.toUpperCase()
+    language: getShopifyLocale({ locale })
   });
 
   return (
