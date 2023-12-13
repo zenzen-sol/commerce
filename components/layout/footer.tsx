@@ -32,7 +32,7 @@ export default async function Footer({
           'text-sm md:flex-row md:gap-12'
         )}
       >
-        <div className="w-full md:w-[60%]">
+        <div className="w-full md:min-w-[60%]">
           <div className="flex flex-col space-y-24">
             <NewsletterFooter />
             <div className="hidden flex-row items-end space-x-12 pt-24 md:flex">
@@ -45,7 +45,7 @@ export default async function Footer({
               </Link>
               <div className="flex flex-row items-end space-x-6">
                 <div className="flex flex-col items-start space-y-2">
-                  <p className="font-japan text-3xl font-extralight">杉の森酒造</p>
+                  <p className="font-japan text-3xl font-extralight">杉之森酒造</p>
                   <p className="font-serif text-xs font-semibold">suginomori brewery</p>
                 </div>
                 <div className="flex flex-col items-start space-y-2">
