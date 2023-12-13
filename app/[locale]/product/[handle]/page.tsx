@@ -11,6 +11,7 @@ import { ProductDescription } from 'components/product/product-description';
 import { ProductTastingNotes } from 'components/product/tasting-notes';
 import { VariantSelector } from 'components/product/variant-selector';
 import { HIDDEN_PRODUCT_TAG } from 'lib/constants';
+import { getShopifyLocale } from 'lib/locales';
 import { getProduct, getProductRecommendations } from 'lib/shopify';
 import { Image as MediaImage, Product } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -25,7 +26,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const product: Product | undefined = await getProduct({
     handle: params.handle,
-    language: params?.locale?.toUpperCase()
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   if (!product) return {};
@@ -71,7 +72,7 @@ export default async function ProductPage({
   const numberOfOtherImages = 3;
   const product = await getProduct({
     handle: params.handle,
-    language: params?.locale?.toUpperCase()
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   let otherImages: MediaImage[] = [];

@@ -28,6 +28,6 @@ button {
   @apply font-japan tracking-widest;
 }
 
-[lang='zh_tw'] .font-multilingual {
+[lang='zh'] .font-multilingual {
   @apply font-japan tracking-widest;
 }

@@ -71,7 +71,7 @@ const noto = Noto_Serif_JP({
   variable: '--font-noto'
 });
 
-const locales = ['en', 'ja', 'zh_tw'] as const;
+const locales = ['en', 'ja', 'zh'] as const;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

@@ -20,6 +20,7 @@ import SagyobarPreview from 'components/layout/sagyobar-preview';
 import Shoplist from 'components/layout/shoplist';
 import StoriesPreview from 'components/layout/stories-preview';
 import { BLOG_HANDLE } from 'lib/constants';
+import { getShopifyLocale } from 'lib/locales';
 import { getCart, getProduct } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -53,9 +54,11 @@ export default async function HomePage({
     cart = await getCart(cartId);
   }
 
+  console.debug('locale', getShopifyLocale({ locale }));
+
   const promotedItem: Product | undefined = await getProduct({
     handle: 'gift-bag-and-postcard-set',
-    language: locale?.toUpperCase()
+    language: getShopifyLocale({ locale })
   });
 
   return (

@@ -1,5 +1,6 @@
 import { SupportedLocale } from 'components/layout/navbar/language-control';
 import OpengraphImage from 'components/opengraph-image';
+import { getShopifyLocale } from 'lib/locales';
 import { getPage } from 'lib/shopify';
 
 export default async function Image({
@@ -9,7 +10,7 @@ export default async function Image({
 }) {
   const page = await getPage({
     handle: params.page,
-    language: params?.locale?.toUpperCase() || 'JA'
+    language: getShopifyLocale({ locale: params?.locale })
   });
   const title = page.seo?.title || page.title;
 

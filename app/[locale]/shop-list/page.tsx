@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Footer from 'components/layout/footer';
 import Navbar from 'components/layout/navbar';
 import { SupportedLocale } from 'components/layout/navbar/language-control';
+import { getShopifyLocale } from 'lib/locales';
 import { getCart, getPage, getProduct } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -20,7 +21,7 @@ export async function generateMetadata({
   unstable_noStore(); // opt out from partial prerendering
   const page = await getPage({
     handle: 'shop-list',
-    language: params?.locale?.toUpperCase() || 'JA'
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   if (!page) return {};
@@ -50,7 +51,7 @@ export default async function Page({ params }: { params: { locale?: SupportedLoc
 
   const promotedItem: Product | undefined = await getProduct({
     handle: 'gift-bag-and-postcard-set',
-    language: params?.locale?.toUpperCase() || 'JA'
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   return (
@@ -61,7 +62,7 @@ export default async function Page({ params }: { params: { locale?: SupportedLoc
           <ShopsNav />
         </div>
         <Suspense fallback={null}>
-          <ShopListDetail language={params?.locale?.toUpperCase()} />
+          <ShopListDetail language={getShopifyLocale({ locale: params?.locale })} />
         </Suspense>
       </div>
 
