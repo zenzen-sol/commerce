@@ -166,7 +166,7 @@ export default async function ProductPage({
           )}
 
           {!!product?.galleryIntro?.value && (
-            <div className="font-multilingual flex w-full flex-row justify-end whitespace-pre-line px-4 md:px-0">
+            <div className="font-multilingual flex w-full flex-row justify-end whitespace-pre-line px-4 dark:text-white/[60%] md:px-0">
               <div className="md:w-1/2">{product.galleryIntro.value}</div>
             </div>
           )}
@@ -201,7 +201,7 @@ export default async function ProductPage({
           </div>
 
           {!!product?.lower?.value && (
-            <div className="font-multilingual flex w-full flex-row justify-end whitespace-pre-line px-4 md:px-0">
+            <div className="font-multilingual flex w-full flex-row justify-end whitespace-pre-line px-4 dark:text-white/[60%] md:px-0">
               <div className="md:w-1/2">{product.lower.value}</div>
             </div>
           )}
