@@ -1,4 +1,5 @@
 import { SupportedLocale } from 'components/layout/navbar/language-control';
+import { getShopifyLocale } from 'lib/locales';
 import { getCart, getProduct } from 'lib/shopify';
 import { Product } from 'lib/shopify/types';
 import { cookies } from 'next/headers';
@@ -14,7 +15,7 @@ export default async function Cart({ locale }: { locale?: SupportedLocale }) {
 
   const promotedItem: Product | undefined = await getProduct({
     handle: 'gift-bag-and-postcard-set',
-    language: locale?.toUpperCase() || 'JA'
+    language: getShopifyLocale({ locale })
   });
 
   return <CartModal cart={cart} promotedItem={promotedItem} />;

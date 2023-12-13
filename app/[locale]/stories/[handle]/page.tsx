@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { SupportedLocale } from 'components/layout/navbar/language-control';
 import Prose from 'components/prose';
 import { BLOG_HANDLE, HIDDEN_ARTICLE_TAG } from 'lib/constants';
+import { getShopifyLocale } from 'lib/locales';
 import { getBlogArticle } from 'lib/shopify';
 import { BlogArticle } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -17,7 +18,7 @@ export async function generateMetadata({
   const article: BlogArticle | undefined = await getBlogArticle({
     handle: BLOG_HANDLE,
     articleHandle: params.handle,
-    language: params?.locale?.toUpperCase()
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   if (!article) return {};
@@ -63,7 +64,7 @@ export default async function BlogArticlePage({
   const article: BlogArticle | undefined = await getBlogArticle({
     handle: BLOG_HANDLE,
     articleHandle: params.handle,
-    language: params?.locale?.toUpperCase()
+    language: getShopifyLocale({ locale: params?.locale })
   });
 
   if (!article) notFound();

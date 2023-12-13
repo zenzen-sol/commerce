@@ -24,6 +24,7 @@ export const LanguageControl = ({ lang }: { lang?: SupportedLocale }) => {
     let unjoinedWithoutLocale = removeItem(unjoined, 'en');
     unjoinedWithoutLocale = removeItem(unjoinedWithoutLocale, 'ja');
     unjoinedWithoutLocale = removeItem(unjoinedWithoutLocale, 'zh');
+
     return unjoinedWithoutLocale.join('/') || '/';
   };
 

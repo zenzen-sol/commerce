@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { getShopifyLocale } from 'lib/locales';
 import { getBlog } from 'lib/shopify';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,7 +19,7 @@ export default async function StoriesPreview({
   const blog = await getBlog({
     handle: handle,
     articles: articles || 250,
-    language: locale?.toUpperCase()
+    language: getShopifyLocale({ locale })
   });
 
   if (!blog || !!blog?.articles) return null;
