@@ -3,9 +3,9 @@
 import clsx from 'clsx';
 import { createSharedPathnamesNavigation } from 'next-intl/navigation';
 
-export type SupportedLocale = 'en' | 'ja' | 'zh';
+export type SupportedLocale = 'en' | 'ja' | 'zh_tw';
 
-const locales = ['en', 'ja', 'zh'] as const;
+const locales = ['en', 'ja', 'zh_tw'] as const;
 
 function removeItem<T>(arr: Array<T>, value: T): Array<T> {
   const index = arr.indexOf(value);
@@ -23,7 +23,7 @@ export const LanguageControl = ({ lang }: { lang?: SupportedLocale }) => {
     const unjoined = pathName.split('/');
     let unjoinedWithoutLocale = removeItem(unjoined, 'en');
     unjoinedWithoutLocale = removeItem(unjoinedWithoutLocale, 'ja');
-    unjoinedWithoutLocale = removeItem(unjoinedWithoutLocale, 'zh');
+    unjoinedWithoutLocale = removeItem(unjoinedWithoutLocale, 'zh_tw');
     return unjoinedWithoutLocale.join('/') || '/';
   };
 
@@ -61,11 +61,11 @@ export const LanguageControl = ({ lang }: { lang?: SupportedLocale }) => {
         <Link
           href={basePathName()}
           className={clsx(
-            lang === 'zh' ? 'opacity-100' : 'opacity-50 hover:opacity-70',
+            lang === 'zh_tw' ? 'opacity-100' : 'opacity-50 hover:opacity-70',
             'transition-opacity duration-150'
           )}
           scroll={false}
-          locale="zh"
+          locale="zh_tw"
         >
           中文
         </Link>
