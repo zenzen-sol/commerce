@@ -89,7 +89,9 @@ export default function Navbar({
           >
             <LogoNamemark
               className={clsx(
-                inView && !compact ? 'min-w-[180px] md:w-[600px]' : 'min-w-[180px] md:w-[260px]',
+                inView && !compact
+                  ? 'min-w-[180px] md:w-[450px] lg:w-[600px]'
+                  : 'min-w-[180px] md:w-[260px]',
                 'fill-current transition-all duration-150',
                 compact ? 'pt-4 md:pt-6' : 'pt-4 md:pt-12'
               )}

@@ -12,10 +12,12 @@ function HomepageProductsItem({ item, priority }: { item: Product; priority?: bo
   const size = item?.variants?.[0]?.selectedOptions?.find((option) => option.name === 'Size');
   const image = item?.variants?.[0]?.image;
 
+  // console.debug({ item });
+
   return !!image ? (
     <div
       className={clsx(
-        'col-span-1 row-span-1 flex flex-col justify-between space-y-6 md:col-span-2 md:row-span-1'
+        'col-span-1 row-span-1 flex flex-col justify-between space-y-6 pb-24 md:col-span-2 md:row-span-1 md:pb-0'
       )}
     >
       <Link className="group block w-full" href={`/product/${item.handle}`}>
@@ -28,14 +30,14 @@ function HomepageProductsItem({ item, priority }: { item: Product; priority?: bo
             alt={item.title}
           />
         </span>
-        <span className="font-multilingual block max-w-sm pb-24 pt-4 md:pb-0">
+        <span className="font-multilingual block max-w-sm pb-0 pt-4">
           <Label
             title={item.title as string}
             amount={item.priceRange.maxVariantPrice.amount}
             currencyCode={item.priceRange.maxVariantPrice.currencyCode}
             size={size?.value}
           />
-          <span className="line-clamp-4 pt-2 font-extralight">
+          <span className="pt-2 font-extralight">
             <span>{item?.summary?.value}</span>{' '}
             <span className="ml-2 inline-flex flex-row items-center space-x-1 opacity-50 transition-opacity duration-150 group-hover:opacity-100">
               <span>read more.</span>

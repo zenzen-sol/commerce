@@ -58,7 +58,7 @@ export function MenuModal({ scrolled }: { scrolled: boolean }) {
               <Dialog.Panel>
                 <div className="z-40 mx-auto max-w-screen-xl px-6">
                   <div className="absolute left-6 top-2">
-                    <Logo className="h-[132px] w-[132px]" />
+                    <Logo className="h-[64px] w-[64px] md:h-[132px] md:w-[132px]" />
                   </div>
                   <div
                     className={clsx(
