@@ -63,7 +63,6 @@ const AgeGateForm: FC<AgeGateFormProps> = ({ checkoutUrl, didCancel }) => {
 
   useEffect(() => {
     if (yearFieldRef) {
-      console.debug('yearFieldRef', yearFieldRef?.current);
       yearFieldRef?.current?.focus();
     }
   }, []);

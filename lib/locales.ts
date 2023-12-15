@@ -4,5 +4,6 @@ export const getShopifyLocale = ({ locale }: { locale?: string }) => {
   } else if (locale === 'zh') {
     return 'ZH_TW';
   } else {
+    return locale.toUpperCase();
   }
 };
