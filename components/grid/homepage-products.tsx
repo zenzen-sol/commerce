@@ -2,6 +2,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { InlineAddToCart } from 'components/cart/inline-add-to-cart';
 import { SupportedLocale } from 'components/layout/navbar/language-control';
+import { getShopifyLocale } from 'lib/locales';
 import { getCollectionProducts } from 'lib/shopify';
 import type { Product } from 'lib/shopify/types';
 import Link from 'next/link';
@@ -57,8 +58,10 @@ export async function HomepageProducts({ lang }: { lang?: SupportedLocale }) {
   // Collections that start with `hidden-*` are hidden from the search page.
   const homepageItems = await getCollectionProducts({
     collection: 'hidden-homepage-featured-items',
-    language: lang?.toUpperCase()
+    language: getShopifyLocale({ locale: lang })
   });
+
+  // console.debug({ homepageItems });
 
   if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
 

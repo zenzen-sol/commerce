@@ -479,6 +479,7 @@ export async function getProduct({
       country
     }
   });
+
   return reshapeProduct(res.body.data.product, false);
 }
 

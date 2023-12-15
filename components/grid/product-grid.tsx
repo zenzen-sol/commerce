@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { SupportedLocale } from 'components/layout/navbar/language-control';
+import { getShopifyLocale } from 'lib/locales';
 import { getCollectionProducts } from 'lib/shopify';
 import type { Product } from 'lib/shopify/types';
 import Link from 'next/link';
@@ -39,7 +40,7 @@ export async function ProductGrid({ lang }: { lang?: SupportedLocale }) {
   // Collections that start with `hidden-*` are hidden from the search page.
   const productPageItems = await getCollectionProducts({
     collection: 'hidden-products-page-items',
-    language: lang?.toUpperCase()
+    language: getShopifyLocale({ locale: lang })
   });
 
   if (!productPageItems?.length) return null;
