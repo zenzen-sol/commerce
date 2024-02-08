@@ -87,17 +87,17 @@ export default async function ProductPage({
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.title,
-    description: product.description,
-    image: product.featuredImage.url,
+    name: product?.title,
+    description: product?.description,
+    image: product?.featuredImage?.url,
     offers: {
       '@type': 'AggregateOffer',
-      availability: product.availableForSale
+      availability: product?.availableForSale
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
-      priceCurrency: product.priceRange.minVariantPrice.currencyCode,
-      highPrice: product.priceRange.maxVariantPrice.amount,
-      lowPrice: product.priceRange.minVariantPrice.amount
+      priceCurrency: product?.priceRange?.minVariantPrice?.currencyCode,
+      highPrice: product?.priceRange?.maxVariantPrice?.amount,
+      lowPrice: product?.priceRange?.minVariantPrice?.amount
     }
   };
 
@@ -111,16 +111,18 @@ export default async function ProductPage({
       />
       <div className="mx-auto max-w-screen-xl py-24">
         <div className="flex flex-col space-y-12">
-          <div className="relative h-full w-full">
-            <Image
-              src={product.featuredImage?.url}
-              alt={product.featuredImage?.altText || product.id}
-              height={product.featuredImage.height}
-              width={product.featuredImage.width}
-              className="h-full w-full object-cover"
-              priority={true}
-            />
-          </div>
+          {!!product?.featuredImage && (
+            <div className="relative h-full w-full">
+              <Image
+                src={product.featuredImage?.url}
+                alt={product.featuredImage?.altText || product.id}
+                height={product.featuredImage.height}
+                width={product.featuredImage.width}
+                className="h-full w-full object-cover"
+                priority={true}
+              />
+            </div>
+          )}
 
           <div className="flex flex-col space-y-6 px-6 md:flex-row md:space-x-6 md:space-y-0">
             <div className="md:w-1/2">
