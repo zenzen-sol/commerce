@@ -3,6 +3,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import CloseIcon from 'components/icons/close';
+import FacebookIcon from 'components/icons/facebook';
+import InstagramIcon from 'components/icons/instagram';
 import Logo from 'components/icons/logo';
 import MenuIcon from 'components/icons/menu';
 import { useLocale, useTranslations } from 'next-intl';
@@ -146,6 +148,27 @@ export function MenuModal({ scrolled }: { scrolled: boolean }) {
                               className="font-serif text-2xl font-extralight transition-opacity duration-150 hover:opacity-50"
                             >
                               {t('email-address.support')}
+                            </Link>
+                          </div>
+
+                          <div className="flex flex-row items-center justify-end space-x-6">
+                            <Link
+                              href="https://www.instagram.com/narai.sake/"
+                              className="group"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              aria-label="Visit on Instagram"
+                            >
+                              <InstagramIcon className="h-6 stroke-transparent transition-all ease-in-out group-hover:scale-110" />
+                            </Link>
+                            <Link
+                              href="https://www.facebook.com/narai.sake"
+                              className="group"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              aria-label="Visit on Facebook"
+                            >
+                              <FacebookIcon className="h-6 stroke-transparent transition-all ease-in-out group-hover:scale-110" />
                             </Link>
                           </div>
                         </nav>
