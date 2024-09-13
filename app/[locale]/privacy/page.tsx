@@ -1,10 +1,10 @@
 import Footer from 'components/layout/footer';
-import { SupportedLocale } from 'components/layout/navbar/language-control';
+import type { SupportedLocale } from 'components/layout/navbar/language-control';
 
 import Navbar from 'components/layout/navbar';
 import { getShopifyLocale } from 'lib/locales';
 import { getCart, getProduct } from 'lib/shopify';
-import { Product } from 'lib/shopify/types';
+import type { Product } from 'lib/shopify/types';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import { Suspense } from 'react';
