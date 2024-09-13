@@ -643,5 +643,5 @@ a {
 .fixed_btn_active {
   opacity: 1;
   visibility: visible;
-  transiton: 0.5s;
+  transition: 0.5s;
 }
