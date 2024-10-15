@@ -70,6 +70,7 @@
 			"kyushu": "九州"
 		},
 		"footer": {
+			"companyName": "杉之森酒造",
 			"newsletter": {
 				"promo": "我哋會寄送俾您一啲只係俾訂閱者嘅獨家資訊同埋搭配晚宴嘅通知。"
 			},
@@ -281,12 +282,12 @@
 			"saito": {
 				"japanese": "斉藤聡之",
 				"english": "Toshiyuki Saito",
-				"role": "蔵人"
+				"role": "藏人"
 			},
 			"karaki": {
 				"japanese": "唐木春奈",
 				"english": "Haruna Karaki",
-				"role": "営業サポート"
+				"role": "業務支援"
 			},
 			"subtitle003": "movie"
 		},

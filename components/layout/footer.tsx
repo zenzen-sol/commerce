@@ -4,14 +4,16 @@ import FacebookIcon from "components/icons/facebook";
 import InstagramIcon from "components/icons/instagram";
 import KanjiLogo from "components/icons/kanji";
 import type { Cart, Product } from "lib/shopify/types";
+
 import Link from "next/link";
 import { Suspense } from "react";
+import CompanyName from "./company-name";
 import FooterMenu from "./footer-menu";
 import NewsletterFooter from "./newsletter-footer";
 
 const { COMPANY_NAME, SITE_NAME } = process.env;
 
-export default async function Footer({
+export default function Footer({
 	cart,
 	promotedItem,
 }: {
@@ -46,7 +48,7 @@ export default async function Footer({
 							<div className="flex flex-row items-end space-x-6">
 								<div className="flex flex-col items-start space-y-2">
 									<p className="font-japan text-3xl font-extralight">
-										杉の森酒造
+										<CompanyName />
 									</p>
 									<p className="font-serif text-xs font-semibold">
 										suginomori brewery
@@ -76,7 +78,7 @@ export default async function Footer({
 						<div className="flex grow flex-col space-y-6 md:items-end">
 							<div className="flex flex-col items-start space-y-2">
 								<p className="font-japan text-[22px] font-extralight">
-									杉の森酒造
+									<CompanyName />
 								</p>
 								<p className="font-serif text-lg">suginomori brewery</p>
 							</div>
