@@ -244,10 +244,10 @@
 				"value": "0264-24-0340"
 			},
 			"subtitle002": "our team",
-			"irie": {
-				"japanese": "入江将之",
-				"english": "Masayuki Irie",
-				"role": "釀酒師"
+			"saito": {
+				"japanese": "斉藤聡之",
+				"english": "Toshiyuki Saito",
+				"role": " 釀造負責人"
 			},
 			"nishikawa": {
 				"japanese": "西川正貴",
@@ -278,11 +278,6 @@
 				"japanese": "池谷晋也",
 				"english": "Shinya Ikegaya",
 				"role": "營銷策略"
-			},
-			"saito": {
-				"japanese": "斉藤聡之",
-				"english": "Toshiyuki Saito",
-				"role": "藏人"
 			},
 			"karaki": {
 				"japanese": "唐木春奈",
