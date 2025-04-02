@@ -74,18 +74,28 @@ export function CartProvider({
 
 	useEffect(() => {
 		// Open cart modal when quantity changes.
-		if (!cart || !quantityRef.current) {
-			quantityRef.current = cart?.totalQuantity;
+		if (!cart) {
 			return;
 		}
-		if (!!cart?.totalQuantity && cart?.totalQuantity !== quantityRef.current) {
+
+		// Initialize quantityRef if needed
+		if (quantityRef.current === undefined) {
+			quantityRef.current = cart.totalQuantity;
+			// Open cart on first item added
+			if (cart.totalQuantity > 0 && !isOpen) {
+				setIsOpen(true);
+			}
+			return;
+		}
+
+		if (cart.totalQuantity > 0 && cart.totalQuantity !== quantityRef.current) {
 			// But only if it's not already open (quantity also changes when editing items in cart).
 			if (!isOpen) {
 				setIsOpen(true);
 			}
 		}
 		// Always update the quantity reference
-		quantityRef.current = cart?.totalQuantity;
+		quantityRef.current = cart.totalQuantity;
 	}, [cart, isOpen]);
 
 	useEffect(() => {

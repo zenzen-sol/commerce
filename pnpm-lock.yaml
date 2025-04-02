@@ -79,11 +79,11 @@ importers:
         specifier: latest
         version: 20.10.3
       '@types/react':
-        specifier: ^18.2.41
-        version: 18.2.41
+        specifier: ^19.0.13
+        version: 19.0.13
       '@types/react-dom':
-        specifier: ^18.2.17
-        version: 18.2.17
+        specifier: ^19.0.5
+        version: 19.0.5(@types/react@19.0.13)
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.32)
@@ -493,20 +493,16 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/prop-types@15.7.11':
-    resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
-
-  '@types/react-dom@18.2.17':
-    resolution: {integrity: sha512-rvrT/M7Df5eykWFxn6MYt5Pem/Dbyc1N8Y0S9Mrkw2WFCRiqUgw9P7ul2NpwsXCSM1DVdENzdG9J5SreqfAIWg==}
+  '@types/react-dom@19.0.5':
+    resolution: {integrity: sha512-DJXtIUr9XyoKNEBKRk3QkdiFZ10M9VNZrO15AR331rWXd4niNj5Rox9SsRwiTgqDR6C9aURk+1QHO6S5chU+IA==}
+    peerDependencies:
+      '@types/react': ^19.0.0
 
   '@types/react-gtm-module@2.0.3':
     resolution: {integrity: sha512-fL2zKdDFN5LckSsVBXEhhm9M4tFTM9oHJfGcfZJzktQkzpOTGtDM8oXIP9d9UBDxO4xLNZhS22dlgRVv6wgK9w==}
 
-  '@types/react@18.2.41':
-    resolution: {integrity: sha512-CwOGr/PiLiNBxEBqpJ7fO3kocP/2SSuC9fpH5K7tusrg4xPSRT/193rzolYwQnTN02We/ATXKnb6GqA5w4fRxw==}
-
-  '@types/scheduler@0.16.8':
-    resolution: {integrity: sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==}
+  '@types/react@19.0.13':
+    resolution: {integrity: sha512-F/kzAZ/9J2tx3mSLoOIXt7d7Vd527qLTddWA4JyZVTTyKGpNUjVx4AY8DHD/gISnmFGZ4D3SEtlo5WKDUztUvw==}
 
   '@typescript-eslint/parser@6.13.1':
     resolution: {integrity: sha512-fs2XOhWCzRhqMmQf0eicLa/CWSaYss2feXsy7xBD/pLyWke/jCIVc2s1ikEAtSW7ina1HNhv7kONoEfVNEcdDQ==}
@@ -2494,21 +2490,15 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/prop-types@15.7.11': {}
-
-  '@types/react-dom@18.2.17':
+  '@types/react-dom@19.0.5(@types/react@19.0.13)':
     dependencies:
-      '@types/react': 18.2.41
+      '@types/react': 19.0.13
 
   '@types/react-gtm-module@2.0.3': {}
 
-  '@types/react@18.2.41':
+  '@types/react@19.0.13':
     dependencies:
-      '@types/prop-types': 15.7.11
-      '@types/scheduler': 0.16.8
       csstype: 3.1.2
-
-  '@types/scheduler@0.16.8': {}
 
   '@typescript-eslint/parser@6.13.1(eslint@8.55.0)(typescript@5.1.6)':
     dependencies:

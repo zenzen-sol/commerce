@@ -17,9 +17,7 @@ function HomepageProductsItem({
 	);
 	const image = item?.variants?.[0]?.image;
 
-	// console.debug({ item });
-
-	return !!image ? (
+	return image ? (
 		<div
 			className={clsx(
 				"col-span-1 row-span-1 flex flex-col justify-between space-y-6 pb-24 md:col-span-2 md:row-span-1 md:pb-0",
