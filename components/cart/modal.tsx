@@ -39,6 +39,10 @@ export default function CartModal({
 	const closeCart = () => setIsOpen(false);
 
 	useEffect(() => {
+		console.debug("Cart state changed:", { isOpen });
+	}, [isOpen]);
+
+	useEffect(() => {
 		// Open cart modal when quantity changes.
 		if (cart?.totalQuantity !== quantityRef.current) {
 			// But only if it's not already open (quantity also changes when editing items in cart).
@@ -64,12 +68,16 @@ export default function CartModal({
 
 	return (
 		<>
-			<div>
+			<div key="cart-container">
 				<button type="button" aria-label="Open cart" onClick={openCart}>
 					<OpenCart quantity={cart?.totalQuantity} />
 				</button>
 				<Transition show={isOpen} key={cart?.id || "empty-cart"}>
-					<Dialog onClose={closeCart} className="relative z-50 w-0">
+					<Dialog
+						onClose={closeCart}
+						className="relative z-50 w-0"
+						key="main-cart"
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="transition-all ease-in-out duration-300"
