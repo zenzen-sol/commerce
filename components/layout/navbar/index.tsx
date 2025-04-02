@@ -3,11 +3,12 @@
 import { Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import CartModal from "components/cart/modal";
+import { useCart } from "components/cart/cart-provider";
+import CartTrigger from "components/cart/cart-trigger";
 import LogoNamemark from "components/icons/namemark";
 import type { Cart, Product } from "lib/shopify/types";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { MenuModal } from "../menu/modal";
 import { LanguageControl } from "./language-control";
@@ -29,6 +30,14 @@ export default function Navbar({
 		threshold: 0,
 		initialInView: true,
 	});
+
+	const { setCart } = useCart();
+
+	useEffect(() => {
+		if (cart) {
+			setCart(cart);
+		}
+	}, [cart, setCart]);
 
 	return (
 		<div ref={ref}>
@@ -71,7 +80,7 @@ export default function Navbar({
 						<nav className="flex flex-row items-center space-x-4 px-6">
 							<div className="flex flex-col-reverse items-center justify-center space-y-2 px-2 md:flex-row md:space-x-6">
 								<Suspense>
-									<CartModal cart={cart} promotedItem={promotedItem} />
+									<CartTrigger cart={cart} promotedItem={promotedItem} />
 								</Suspense>
 								<Suspense>
 									<MenuModal scrolled={!inView} />
@@ -110,7 +119,7 @@ export default function Navbar({
 						</div>
 						<div className="flex flex-col-reverse items-center justify-center space-y-2 rounded md:flex-row md:space-x-6 md:space-y-0">
 							<Suspense>
-								<CartModal cart={cart} promotedItem={promotedItem} />
+								<CartTrigger cart={cart} promotedItem={promotedItem} />
 							</Suspense>
 							<Suspense>
 								<MenuModal scrolled={!inView} />

@@ -3,7 +3,7 @@ import { getCart, getProduct } from "lib/shopify";
 import type { Cart, Product } from "lib/shopify/types";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
-import CartModal from "./modal";
+import CartTrigger from "./cart-trigger";
 
 export default async function MainCart() {
 	const locale = await getLocale();
@@ -19,5 +19,5 @@ export default async function MainCart() {
 		language: getShopifyLocale({ locale }),
 	});
 
-	return <CartModal cart={cart} promotedItem={promotedItem} />;
+	return <CartTrigger cart={cart} promotedItem={promotedItem} />;
 }

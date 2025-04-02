@@ -41,8 +41,6 @@ export async function shopifyAdminFetch<T>({
 			...(tags && { next: { tags } }),
 		});
 
-		console.debug({ result });
-
 		const body = await result.json();
 
 		if (body.errors) {

@@ -5,6 +5,10 @@ import { type ReactNode, Suspense } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import Analytics from "./analytics";
 import "./globals.css";
+import { CartProvider } from "components/cart/cart-provider";
+import { getShopifyLocale } from "lib/locales";
+import { getProduct } from "lib/shopify";
+import type { Product } from "lib/shopify/types";
 import { getLocale } from "next-intl/server";
 
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
@@ -15,7 +19,7 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 export const metadata = {
 	metadataBase: new URL(baseUrl),
 	title: {
-		default: SITE_NAME!,
+		default: SITE_NAME,
 		template: `%s | ${SITE_NAME}`,
 	},
 	robots: {
@@ -72,9 +76,14 @@ const noto = Noto_Serif_JP({
 export default async function RootLayout(props: {
 	children: ReactNode;
 }) {
-	const { children } = await props;
+	const { children } = props;
 	// Validate that the incoming `locale` parameter is valid
 	const locale = await getLocale();
+
+	const promotedItem: Product | undefined = await getProduct({
+		handle: "gift-bag-and-postcard-set",
+		language: getShopifyLocale({ locale }),
+	});
 
 	return (
 		<html
@@ -86,7 +95,9 @@ export default async function RootLayout(props: {
 					<Suspense fallback={null}>
 						<Analytics />
 					</Suspense>
-					<main>{children}</main>
+					<CartProvider initialPromotedItem={promotedItem}>
+						<main>{children}</main>
+					</CartProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>

@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import CartModal from "components/cart/modal";
 import FacebookIcon from "components/icons/facebook";
 import InstagramIcon from "components/icons/instagram";
 import KanjiLogo from "components/icons/kanji";
 import type { Cart, Product } from "lib/shopify/types";
 
+import CartTrigger from "components/cart/cart-trigger";
 import Link from "next/link";
 import { Suspense } from "react";
 import CompanyName from "./company-name";
@@ -127,7 +127,7 @@ export default function Footer({
 						<div className="flex flex-col space-y-2 pt-24">
 							<div className="flex flex-row justify-between space-x-4">
 								<Suspense>
-									<CartModal cart={cart} promotedItem={promotedItem} />
+									<CartTrigger cart={cart} promotedItem={promotedItem} />
 								</Suspense>
 								<div className="flex flex-row items-center space-x-6">
 									<Link
