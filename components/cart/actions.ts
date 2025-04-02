@@ -6,7 +6,7 @@ import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export async function addItem(selectedVariantId: string | undefined) {
-  let cartId = cookies().get('cartId')?.value;
+  let cartId = (await cookies()).get('cartId')?.value;
   let cart;
 
   if (cartId) {
@@ -16,7 +16,7 @@ export async function addItem(selectedVariantId: string | undefined) {
   if (!cartId || !cart) {
     cart = await createCart();
     cartId = cart.id;
-    cookies().set('cartId', cartId);
+    (await cookies()).set('cartId', cartId);
   }
 
   if (!selectedVariantId) {
@@ -38,7 +38,7 @@ export const addItems = async ({
   variantId: string | undefined;
   quantity: number;
 }): Promise<String | undefined> => {
-  let cartId = cookies().get('cartId')?.value;
+  let cartId = (await cookies()).get('cartId')?.value;
   let cart;
 
   if (cartId) {
@@ -48,7 +48,7 @@ export const addItems = async ({
   if (!cartId || !cart) {
     cart = await createCart();
     cartId = cart.id;
-    cookies().set('cartId', cartId);
+    (await cookies()).set('cartId', cartId);
   }
 
   if (!variantId) {
@@ -63,7 +63,7 @@ export const addItems = async ({
 };
 
 export async function removeItem(prevState: any, lineId: string) {
-  const cartId = cookies().get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
 
   if (!cartId) {
     return 'Missing cart ID';
@@ -85,7 +85,7 @@ export async function updateItemQuantity(
     quantity: number;
   }
 ) {
-  const cartId = cookies().get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
 
   if (!cartId) {
     return 'Missing cart ID';

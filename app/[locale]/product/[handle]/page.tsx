@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
-import { getInventoryLevels } from "app/actions/get-inventory-levels";
-import { getLocations } from "app/actions/get-locations";
 import clsx from "clsx";
 import { AddManyToCart } from "components/cart/add-many-to-cart";
 import { GridTileImage } from "components/grid/tile";
 import Label from "components/label";
-import type { SupportedLocale } from "components/layout/navbar/language-control";
 import Price from "components/price";
 import { ProductDescription } from "components/product/product-description";
 import { ProductTastingNotes } from "components/product/tasting-notes";
@@ -16,19 +13,19 @@ import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { getShopifyLocale } from "lib/locales";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image as MediaImage, Product } from "lib/shopify/types";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
-export async function generateMetadata({
-	params,
-}: {
-	params: { handle: string; locale?: SupportedLocale };
+export async function generateMetadata(props: {
+	params: Promise<{ handle: string }>;
 }): Promise<Metadata> {
+	const params = await props.params;
+	const locale = await getLocale();
 	const product: Product | undefined = await getProduct({
 		handle: params.handle,
-		language: getShopifyLocale({ locale: params?.locale }),
+		language: getShopifyLocale({ locale }),
 	});
 
 	if (!product) return {};
@@ -62,41 +59,38 @@ export async function generateMetadata({
 	};
 }
 
-export default async function ProductPage({
-	params,
-}: {
-	params: { handle: string; locale?: SupportedLocale };
+export default async function ProductPage(props: {
+	params: Promise<{ handle: string }>;
 }) {
-	if (params?.locale) {
-		unstable_setRequestLocale(params.locale);
-	}
+	const params = await props.params;
+	const locale = await getLocale();
 
 	const numberOfOtherImages = 3;
 	const product = await getProduct({
 		handle: params.handle,
-		language: getShopifyLocale({ locale: params?.locale }),
+		language: getShopifyLocale({ locale }),
 	});
 
 	// console.debug({ product });
 
-	if (product) {
-		const locations = await getLocations();
-		const inventoryItemIds: string[] = product.variants.map(
-			(variant) => variant?.id,
-		);
-		const locationIds: string[] = locations?.map(
-			(location) => location.admin_graphql_api_id,
-		);
-		const inventories = await getInventoryLevels({
-			locationIds,
-			inventoryItemIds,
-		});
+	// if (product) {
+	// 	const locations = await getLocations();
+	// 	const inventoryItemIds: string[] = product.variants.map(
+	// 		(variant) => variant?.id,
+	// 	);
+	// 	const locationIds: string[] = locations?.map(
+	// 		(location) => location.admin_graphql_api_id,
+	// 	);
+	// 	const inventories = await getInventoryLevels({
+	// 		locationIds,
+	// 		inventoryItemIds,
+	// 	});
 
-		console.debug("ProductPage :: Locations & Inventory", {
-			locations,
-			inventories,
-		});
-	}
+	// 	console.debug("ProductPage :: Locations & Inventory", {
+	// 		locations,
+	// 		inventories,
+	// 	});
+	// }
 
 	let otherImages: MediaImage[] = [];
 	if (product) {

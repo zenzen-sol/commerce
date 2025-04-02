@@ -56,12 +56,12 @@ export const getInventoryLevels = async ({
 	);
 
 	const data = await response.json();
-	console.debug("getInventoryLevels Response:", {
-		status: response.status,
-		data,
-		inventoryItemQuery,
-		locationQuery,
-	});
+	// console.debug("getInventoryLevels Response:", {
+	// 	status: response.status,
+	// 	data,
+	// 	inventoryItemQuery,
+	// 	locationQuery,
+	// });
 	return data;
 
 	// const endpoint = `https://shop.narai.jp/admin/api/2024-10/inventory_levels.json?inventory_item_ids=${inventoryItemIds}&location_ids=${locationIds}`;

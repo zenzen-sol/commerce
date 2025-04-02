@@ -1,5 +1,4 @@
 import Footer from "components/layout/footer";
-import type { SupportedLocale } from "components/layout/navbar/language-control";
 
 import HomeImage001 from "@images/home-images/home-image-001.webp";
 import HomeImage002 from "@images/home-images/home-image-002.webp";
@@ -23,7 +22,7 @@ import { BLOG_HANDLE } from "lib/constants";
 import { getShopifyLocale } from "lib/locales";
 import { getCart, getProduct } from "lib/shopify";
 import type { Product } from "lib/shopify/types";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -38,16 +37,9 @@ export const metadata = {
 	},
 };
 
-export default async function HomePage({
-	params: { locale },
-}: {
-	params: { locale?: SupportedLocale };
-}) {
-	if (!!locale) {
-		unstable_setRequestLocale(locale);
-	}
-
-	const cartId = cookies().get("cartId")?.value;
+export default async function HomePage() {
+	const locale = await getLocale();
+	const cartId = (await cookies()).get("cartId")?.value;
 	let cart;
 
 	if (cartId) {

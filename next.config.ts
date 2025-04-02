@@ -1,8 +1,6 @@
-/** @type {import('next').NextConfig} */
-
-const withNextIntl = require("next-intl/plugin")("./i18n.ts");
-
-module.exports = withNextIntl({
+import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+const nextConfig: NextConfig = {
 	eslint: {
 		// Disabling on production builds because we're running checks on PRs via GitHub Actions.
 		ignoreDuringBuilds: true,
@@ -26,4 +24,7 @@ module.exports = withNextIntl({
 			},
 		];
 	},
-});
+};
+const withNextIntl = createNextIntlPlugin();
+
+module.exports = withNextIntl(nextConfig);

@@ -1,11 +1,10 @@
 import Footer from "components/layout/footer";
-import type { SupportedLocale } from "components/layout/navbar/language-control";
 
 import Navbar from "components/layout/navbar";
 import { getShopifyLocale } from "lib/locales";
 import { getCart, getProduct } from "lib/shopify";
-import type { Product } from "lib/shopify/types";
-import { unstable_setRequestLocale } from "next-intl/server";
+import type { Cart, Product } from "lib/shopify/types";
+import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import CompanyDetail from "./company-detail";
@@ -20,15 +19,11 @@ export const metadata = {
 	},
 };
 
-export default async function Page({
-	params,
-}: { params: { locale?: SupportedLocale } }) {
-	if (!!params?.locale) {
-		unstable_setRequestLocale(params.locale);
-	}
+export default async function Page() {
+	const locale = await getLocale();
 
-	const cartId = cookies().get("cartId")?.value;
-	let cart;
+	const cartId = (await cookies()).get("cartId")?.value;
+	let cart: Cart | undefined;
 
 	if (cartId) {
 		cart = await getCart(cartId);
@@ -36,17 +31,12 @@ export default async function Page({
 
 	const promotedItem: Product | undefined = await getProduct({
 		handle: "gift-bag-and-postcard-set",
-		language: getShopifyLocale({ locale: params?.locale }),
+		language: getShopifyLocale({ locale: locale }),
 	});
 
 	return (
 		<div>
-			<Navbar
-				cart={cart}
-				locale={params?.locale}
-				compact
-				promotedItem={promotedItem}
-			/>
+			<Navbar cart={cart} locale={locale} compact promotedItem={promotedItem} />
 			<Suspense fallback={null}>
 				<div className="pt-12">
 					<CompanyDetail />
