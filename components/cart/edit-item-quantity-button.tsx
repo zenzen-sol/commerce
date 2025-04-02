@@ -44,22 +44,25 @@ export function EditItemQuantityButton({
 	item,
 	type,
 }: { item: CartItem; type: "plus" | "minus" }) {
-	// Wrap the updateItemQuantity function to match the expected signature
-	const wrappedUpdateItemQuantity = (payload: {
-		lineId: string;
-		variantId: string;
-		quantity: number;
-	}) => updateItemQuantity(null, payload);
-	const [message, formAction] = useActionState(wrappedUpdateItemQuantity, null);
+	const [message, formAction] = useActionState(updateItemQuantity, null);
 	const payload = {
 		lineId: item.id,
 		variantId: item.merchandise.id,
 		quantity: type === "plus" ? item.quantity + 1 : item.quantity - 1,
 	};
-	const actionWithVariant = formAction.bind(null, payload);
+
+	// Create a submit handler using FormData
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("lineId", payload.lineId);
+		formData.append("variantId", payload.variantId);
+		formData.append("quantity", payload.quantity.toString());
+		formAction(formData);
+	};
 
 	return (
-		<form action={actionWithVariant}>
+		<form onSubmit={handleSubmit}>
 			<SubmitButton type={type} />
 			<p aria-live="polite" className="sr-only">
 				{typeof message === "string" ? message : ""}

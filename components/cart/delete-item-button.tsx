@@ -30,17 +30,19 @@ function SubmitButton({ pending }: { pending: boolean }) {
 }
 
 export function DeleteItemButton({ item }: { item: CartItem }) {
-	// Wrap the removeItem function to match the expected signature
-	const wrappedRemoveItem = (itemId: string) => removeItem(null, itemId);
-	const [deleteState, formAction, pending] = useActionState(
-		wrappedRemoveItem,
-		null,
-	);
+	const [deleteState, formAction, pending] = useActionState(removeItem, null);
 	const itemId = item.id;
-	const actionWithVariant = formAction.bind(null, itemId);
+
+	// Create a submit handler using FormData
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("lineId", itemId);
+		formAction(formData);
+	};
 
 	return (
-		<form action={actionWithVariant}>
+		<form onSubmit={handleSubmit}>
 			<SubmitButton pending={pending} />
 			<p aria-live="polite" className="sr-only">
 				{typeof deleteState === "string" ? deleteState : ""}
