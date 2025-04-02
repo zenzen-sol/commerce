@@ -6,17 +6,11 @@ import { removeItem } from "components/cart/actions";
 import LoadingDots from "components/loading-dots";
 import type { CartItem } from "lib/shopify/types";
 import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
 
-function SubmitButton() {
-	const { pending } = useFormStatus();
-
+function SubmitButton({ pending }: { pending: boolean }) {
 	return (
 		<button
 			type="submit"
-			onClick={(e: React.FormEvent<HTMLButtonElement>) => {
-				if (pending) e.preventDefault();
-			}}
 			aria-label="Remove cart item"
 			aria-disabled={pending}
 			className={clsx(
@@ -36,15 +30,20 @@ function SubmitButton() {
 }
 
 export function DeleteItemButton({ item }: { item: CartItem }) {
-	const [message, formAction] = useActionState(removeItem, null);
+	// Wrap the removeItem function to match the expected signature
+	const wrappedRemoveItem = (itemId: string) => removeItem(null, itemId);
+	const [deleteState, formAction, pending] = useActionState(
+		wrappedRemoveItem,
+		null,
+	);
 	const itemId = item.id;
 	const actionWithVariant = formAction.bind(null, itemId);
 
 	return (
 		<form action={actionWithVariant}>
-			<SubmitButton />
-			<p aria-live="polite" className="sr-only" role="status">
-				{message}
+			<SubmitButton pending={pending} />
+			<p aria-live="polite" className="sr-only">
+				{typeof deleteState === "string" ? deleteState : ""}
 			</p>
 		</form>
 	);

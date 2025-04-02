@@ -44,7 +44,13 @@ export function EditItemQuantityButton({
 	item,
 	type,
 }: { item: CartItem; type: "plus" | "minus" }) {
-	const [message, formAction] = useActionState(updateItemQuantity, null);
+	// Wrap the updateItemQuantity function to match the expected signature
+	const wrappedUpdateItemQuantity = (payload: {
+		lineId: string;
+		variantId: string;
+		quantity: number;
+	}) => updateItemQuantity(null, payload);
+	const [message, formAction] = useActionState(wrappedUpdateItemQuantity, null);
 	const payload = {
 		lineId: item.id,
 		variantId: item.merchandise.id,
@@ -55,8 +61,8 @@ export function EditItemQuantityButton({
 	return (
 		<form action={actionWithVariant}>
 			<SubmitButton type={type} />
-			<p aria-live="polite" className="sr-only" role="status">
-				{message}
+			<p aria-live="polite" className="sr-only">
+				{typeof message === "string" ? message : ""}
 			</p>
 		</form>
 	);
