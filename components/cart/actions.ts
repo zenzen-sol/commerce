@@ -73,8 +73,8 @@ export const addItems = async ({
 	}
 };
 
-export async function removeItem(prevState: any, formData: FormData) {
-	const lineId = formData.get("lineId") as string;
+export async function removeItem(payload: FormData) {
+	const lineId = payload.get("lineId") as string;
 	const cartId = (await cookies()).get("cartId")?.value;
 
 	if (!cartId) {
@@ -89,10 +89,10 @@ export async function removeItem(prevState: any, formData: FormData) {
 	}
 }
 
-export async function updateItemQuantity(prevState: any, formData: FormData) {
-	const lineId = formData.get("lineId") as string;
-	const variantId = formData.get("variantId") as string;
-	const quantity = Number.parseInt(formData.get("quantity") as string, 10);
+export async function updateItemQuantity(payload: FormData) {
+	const lineId = payload.get("lineId") as string;
+	const variantId = payload.get("variantId") as string;
+	const quantity = Number.parseInt(payload.get("quantity") as string, 10);
 
 	const cartId = (await cookies()).get("cartId")?.value;
 
