@@ -246,10 +246,10 @@
 				"value": "+81 264-24-0340"
 			},
 			"subtitle002": "our team",
-			"irie": {
-				"japanese": "入江将之",
-				"english": "Masayuki Irie",
-				"role": "Master Brewer"
+			"saito": {
+				"japanese": "斉藤聡之",
+				"english": "Toshiyuki Saito",
+				"role": "Lead Brewer"
 			},
 			"nishikawa": {
 				"japanese": "西川正貴",
@@ -280,11 +280,6 @@
 				"japanese": "池谷晋也",
 				"english": "Shinya Ikegaya",
 				"role": "Sales Strategy"
-			},
-			"saito": {
-				"japanese": "斉藤聡之",
-				"english": "Toshiyuki Saito",
-				"role": "Brewer"
 			},
 			"karaki": {
 				"japanese": "唐木春奈",

@@ -1,18 +1,20 @@
-import { SupportedLocale } from 'components/layout/navbar/language-control';
-import OpengraphImage from 'components/opengraph-image';
-import { getShopifyLocale } from 'lib/locales';
-import { getPage } from 'lib/shopify';
+import OpengraphImage from "components/opengraph-image";
+import { getShopifyLocale } from "lib/locales";
+import { getPage } from "lib/shopify";
+import { getLocale } from "next-intl/server";
 
 export default async function Image({
-  params
+	params,
 }: {
-  params: { page: string; locale?: SupportedLocale };
+	params: { page: string };
 }) {
-  const page = await getPage({
-    handle: params.page,
-    language: getShopifyLocale({ locale: params?.locale })
-  });
-  const title = page.seo?.title || page.title;
+	const locale = await getLocale();
 
-  return await OpengraphImage({ title });
+	const page = await getPage({
+		handle: params.page,
+		language: getShopifyLocale({ locale }),
+	});
+	const title = page.seo?.title || page.title;
+
+	return await OpengraphImage({ title });
 }
