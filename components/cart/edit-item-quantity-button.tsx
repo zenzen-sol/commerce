@@ -51,18 +51,15 @@ export function EditItemQuantityButton({
 		quantity: type === "plus" ? item.quantity + 1 : item.quantity - 1,
 	};
 
-	// Create a submit handler using FormData
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append("lineId", payload.lineId);
-		formData.append("variantId", payload.variantId);
-		formData.append("quantity", payload.quantity.toString());
-		formAction(formData);
-	};
-
 	return (
-		<form onSubmit={handleSubmit}>
+		<form action={formAction}>
+			<input type="hidden" name="lineId" value={payload.lineId} />
+			<input type="hidden" name="variantId" value={payload.variantId} />
+			<input
+				type="hidden"
+				name="quantity"
+				value={payload.quantity.toString()}
+			/>
 			<SubmitButton type={type} />
 			<p aria-live="polite" className="sr-only">
 				{typeof message === "string" ? message : ""}

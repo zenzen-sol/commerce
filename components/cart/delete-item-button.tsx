@@ -33,16 +33,9 @@ export function DeleteItemButton({ item }: { item: CartItem }) {
 	const [deleteState, formAction, pending] = useActionState(removeItem, null);
 	const itemId = item.id;
 
-	// Create a submit handler using FormData
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append("lineId", itemId);
-		formAction(formData);
-	};
-
 	return (
-		<form onSubmit={handleSubmit}>
+		<form action={formAction}>
+			<input type="hidden" name="lineId" value={itemId} />
 			<SubmitButton pending={pending} />
 			<p aria-live="polite" className="sr-only">
 				{typeof deleteState === "string" ? deleteState : ""}
