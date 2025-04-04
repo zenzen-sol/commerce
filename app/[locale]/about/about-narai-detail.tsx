@@ -4,8 +4,6 @@ import AboutImage002 from "@images/about-images/about-image-002.webp";
 import AboutImage003 from "@images/about-images/about-image-003.webp";
 import AboutImage004 from "@images/about-images/about-image-004.webp";
 import AboutImage005 from "@images/about-images/about-image-005.webp";
-import AboutImage006 from "@images/about-images/about-image-006.webp";
-import IrieSignature from "@images/about-images/irie-signature.webp";
 import clsx from "clsx";
 import Prose from "components/prose";
 import { useTranslations } from "next-intl";
@@ -56,30 +54,6 @@ export default function AboutNaraiDetail({ awards }: { awards: string }) {
 						"aspect-square h-full w-full object-cover md:aspect-auto",
 					)}
 				/>
-			</div>
-
-			<div
-				className={clsx(
-					"font-multilingual mx-auto flex w-full max-w-3xl flex-col space-y-12 py-24 text-left font-extralight md:py-48",
-				)}
-			>
-				<h2 className="text-3xl leading-tight md:text-5xl">
-					{t("about.003.title")}
-				</h2>
-				<p className="text-base leading-loose">{t("about.003.para001")}</p>
-				<div>
-					<div className="relative flex flex-row justify-end pb-6">
-						<Image
-							src={IrieSignature}
-							alt="Irie Signature"
-							width={600}
-							height={81}
-							className={clsx("w-[280px] object-contain")}
-						/>
-					</div>
-					<div className="text-right text-base">{t("about.003.master001")}</div>
-					<div className="text-right text-base">{t("about.003.master002")}</div>
-				</div>
 			</div>
 
 			{!!awards && (
@@ -197,25 +171,6 @@ export default function AboutNaraiDetail({ awards }: { awards: string }) {
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<div className="mx-auto flex max-w-screen-2xl flex-col space-y-24">
-				<div className="md:pb-24">
-					<div className="border-t border-white/20" />
-				</div>
-				<div className="font-multilingual max-w-xl font-extralight">
-					<p className="pb-4 text-xl">{t("about.irie.title")}</p>
-					<p className="text-lg leading-relaxed">{t("about.irie.body")}</p>
-				</div>
-
-				<Image
-					src={AboutImage006}
-					priority={true}
-					alt="A picture of Irie-san."
-					className={clsx(
-						"aspect-square h-full w-full object-cover md:aspect-auto",
-					)}
-				/>
 			</div>
 		</div>
 	);

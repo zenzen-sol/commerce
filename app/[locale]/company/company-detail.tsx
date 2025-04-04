@@ -1,6 +1,5 @@
 "use client";
 import AlisaImage from "@images/company-images/sb_profile_photo_alisa.webp";
-import IrieImage from "@images/company-images/sb_profile_photo_irie.webp";
 import KarakiImage from "@images/company-images/sb_profile_photo_karaki.webp";
 import SundbergImage from "@images/company-images/sb_profile_photo_kou.webp";
 import MasaImage from "@images/company-images/sb_profile_photo_masa.webp";
@@ -79,17 +78,17 @@ export default function CompanyDetail() {
 						<div className="font-multilingual col-span-1 py-4 text-base font-extralight">
 							<div className="relative aspect-square">
 								<Image
-									src={IrieImage}
+									src={SaitoImage}
 									priority={true}
-									alt="A picture of Irie Masayuki."
+									alt="A picture of Toshiyuki Saito."
 									className={clsx("h-full w-full object-cover")}
 								/>
 							</div>
 							<div className="pt-2 font-japan font-extralight">
-								{t("company.irie.japanese")}
+								{t("company.saito.japanese")}
 							</div>
-							<div className="pb-4">{t("company.irie.english")}</div>
-							<div className="text-sm">{t("company.irie.role")}</div>
+							<div className="pb-4">{t("company.saito.english")}</div>
+							<div className="text-sm">{t("company.saito.role")}</div>
 						</div>
 
 						<div className="font-multilingual col-span-1 py-4 text-base font-extralight">
@@ -186,22 +185,6 @@ export default function CompanyDetail() {
 							</div>
 							<div className="pb-4">{t("company.ikegaya.english")}</div>
 							<div className="text-sm">{t("company.ikegaya.role")}</div>
-						</div>
-
-						<div className="font-multilingual col-span-1 py-4 text-base font-extralight">
-							<div className="relative aspect-square">
-								<Image
-									src={SaitoImage}
-									priority={true}
-									alt="A picture of Toshiyuki Saito."
-									className={clsx("h-full w-full object-cover")}
-								/>
-							</div>
-							<div className="pt-2 font-japan font-extralight">
-								{t("company.saito.japanese")}
-							</div>
-							<div className="pb-4">{t("company.saito.english")}</div>
-							<div className="text-sm">{t("company.saito.role")}</div>
 						</div>
 
 						<div className="font-multilingual col-span-1 py-4 text-base font-extralight">
