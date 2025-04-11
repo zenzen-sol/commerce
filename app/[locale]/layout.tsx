@@ -11,6 +11,8 @@ import { getProduct } from "lib/shopify";
 import type { Product } from "lib/shopify/types";
 import { getLocale } from "next-intl/server";
 
+export const revalidate = 3600; // Revalidate pages every hour
+
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env;
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
 	? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
