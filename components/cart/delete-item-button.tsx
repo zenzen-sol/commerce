@@ -1,44 +1,45 @@
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import LoadingDots from 'components/loading-dots';
-import { useRouter } from 'next/navigation';
+"use client";
 
-import clsx from 'clsx';
-import { removeItem } from 'components/cart/actions';
-import type { CartItem } from 'lib/shopify/types';
-import { useTransition } from 'react';
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import { removeItem } from "components/cart/actions";
+import LoadingDots from "components/loading-dots";
+import type { CartItem } from "lib/shopify/types";
+import { useActionState } from "react";
 
-export default function DeleteItemButton({ item }: { item: CartItem }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+function SubmitButton({ pending }: { pending: boolean }) {
+	return (
+		<button
+			type="submit"
+			aria-label="Remove cart item"
+			aria-disabled={pending}
+			className={clsx(
+				"ease flex h-[17px] w-[17px] items-center justify-center rounded-full bg-dark transition-all duration-200",
+				{
+					"cursor-not-allowed px-0": pending,
+				},
+			)}
+		>
+			{pending ? (
+				<LoadingDots className="bg-white" />
+			) : (
+				<XMarkIcon className="mx-[1px] h-4 w-4 text-white transition-opacity duration-150 hover:opacity-60 dark:text-black" />
+			)}
+		</button>
+	);
+}
 
-  return (
-    <button
-      aria-label="Remove cart item"
-      onClick={() => {
-        startTransition(async () => {
-          const error = await removeItem(item.id);
+export function DeleteItemButton({ item }: { item: CartItem }) {
+	const [deleteState, formAction, pending] = useActionState(removeItem, null);
+	const itemId = item.id;
 
-          if (error) {
-            // Trigger the error boundary in the root error.js
-            throw new Error(error.toString());
-          }
-
-          router.refresh();
-        });
-      }}
-      disabled={isPending}
-      className={clsx(
-        'ease flex h-[17px] w-[17px] items-center justify-center rounded-full bg-neutral-500 transition-all duration-200',
-        {
-          'cursor-not-allowed px-0': isPending
-        }
-      )}
-    >
-      {isPending ? (
-        <LoadingDots className="bg-white" />
-      ) : (
-        <XMarkIcon className="hover:text-accent-3 mx-[1px] h-4 w-4 text-white dark:text-black" />
-      )}
-    </button>
-  );
+	return (
+		<form action={formAction}>
+			<input type="hidden" name="lineId" value={itemId} />
+			<SubmitButton pending={pending} />
+			<p aria-live="polite" className="sr-only">
+				{typeof deleteState === "string" ? deleteState : ""}
+			</p>
+		</form>
+	);
 }

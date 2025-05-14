@@ -61,6 +61,23 @@ export type Page = {
   updatedAt: string;
 };
 
+export type Blog = Omit<ShopifyBlog, 'articles'> & {
+  articles: BlogArticle[];
+};
+
+export type BlogArticle = {
+  id: string;
+  title: string;
+  handle: string;
+  content: string;
+  contentHtml: string;
+  excerpt: string;
+  publishedAt: string;
+  image?: Image;
+  seo?: SEO;
+  tags: string[];
+};
+
 export type Product = Omit<ShopifyProduct, 'variants' | 'images'> & {
   variants: ProductVariant[];
   images: Image[];
@@ -81,11 +98,25 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  image: Image;
 };
 
 export type SEO = {
   title: string;
   description: string;
+};
+
+export type ShopifyBlog = {
+  id: string;
+  title: string;
+  handle: string;
+  content: string;
+  contentHtml: string;
+  excerpt: string;
+  articles: Connection<BlogArticle>;
+  seo?: SEO;
+  image?: Image;
+  tags: string[];
 };
 
 export type ShopifyCart = {
@@ -115,6 +146,23 @@ export type ShopifyProduct = {
   title: string;
   description: string;
   descriptionHtml: string;
+  summary: {
+    value: string;
+  };
+  galleryIntro: {
+    value: string;
+  };
+  lower: {
+    value: string;
+  };
+  notes?: {
+    value?: string;
+  };
+  notesImage?: {
+    reference: {
+      image: Image;
+    };
+  };
   options: ProductOption[];
   priceRange: {
     maxVariantPrice: Money;
@@ -134,6 +182,8 @@ export type ShopifyCartOperation = {
   };
   variables: {
     cartId: string;
+    country?: string;
+    language?: string;
   };
 };
 
@@ -153,6 +203,8 @@ export type ShopifyAddToCartOperation = {
       merchandiseId: string;
       quantity: number;
     }[];
+    country?: string;
+    language?: string;
   };
 };
 
@@ -190,6 +242,8 @@ export type ShopifyCollectionOperation = {
   };
   variables: {
     handle: string;
+    language?: string;
+    country?: string;
   };
 };
 
@@ -203,6 +257,8 @@ export type ShopifyCollectionProductsOperation = {
     handle: string;
     reverse?: boolean;
     sortKey?: string;
+    language?: string;
+    country?: string;
   };
 };
 
@@ -228,12 +284,31 @@ export type ShopifyMenuOperation = {
 
 export type ShopifyPageOperation = {
   data: { pageByHandle: Page };
-  variables: { handle: string };
+  variables: { handle: string; language?: string; country?: string };
 };
 
 export type ShopifyPagesOperation = {
   data: {
     pages: Connection<Page>;
+  };
+  variables: {
+    language?: string;
+    country?: string;
+  };
+};
+
+export type ShopifyBlogOperation = {
+  data: { blogByHandle: ShopifyBlog };
+  variables: { handle: string; articles?: number; language?: string; country?: string };
+};
+
+export type ShopifyBlogArticleOperation = {
+  data: { blogByHandle: { articleByHandle: BlogArticle } };
+  variables: {
+    handle: string;
+    articleHandle: string;
+    language?: string;
+    country?: string;
   };
 };
 
@@ -241,6 +316,8 @@ export type ShopifyProductOperation = {
   data: { product: ShopifyProduct };
   variables: {
     handle: string;
+    language?: string;
+    country?: string;
   };
 };
 
@@ -250,6 +327,8 @@ export type ShopifyProductRecommendationsOperation = {
   };
   variables: {
     productId: string;
+    language?: string;
+    country?: string;
   };
 };
 
@@ -261,5 +340,7 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+    language?: string;
+    country?: string;
   };
 };

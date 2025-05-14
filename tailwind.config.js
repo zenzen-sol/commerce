@@ -1,12 +1,34 @@
 const plugin = require('tailwindcss/plugin');
+// const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      colors: {
+        subtle: '#606A5F',
+        dark: '#212720',
+        base: '#F4F7F5'
+      },
       fontFamily: {
-        sans: ['var(--font-inter)']
+        sans: ['var(--font-lato)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-alpina)', ...defaultTheme.fontFamily.serif],
+        title: ['var(--font-cinzel)', 'serif'],
+        japan: ['var(--font-noto)', 'serif']
+      },
+      fontSize: {
+        '6xl': '65px',
+        '5xl': '45px',
+        '3xs': '.5rem'
+      },
+      aspectRatio: {
+        tall: '596 / 845',
+        video: '1792 / 750'
+      },
+      maxWidth: {
+        title: '281px'
       },
       keyframes: {
         fadeIn: {

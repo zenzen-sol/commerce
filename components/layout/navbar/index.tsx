@@ -1,58 +1,133 @@
-import Cart from 'components/cart';
-import OpenCart from 'components/cart/open-cart';
-import LogoSquare from 'components/logo-square';
-import { getMenu } from 'lib/shopify';
-import { Menu } from 'lib/shopify/types';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import MobileMenu from './mobile-menu';
-import Search from './search';
-const { SITE_NAME } = process.env;
+"use client";
 
-export default async function Navbar() {
-  const menu = await getMenu('next-js-frontend-header-menu');
+import { Transition } from "@headlessui/react";
+import { ChevronUpIcon } from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import { useCart } from "components/cart/cart-provider";
+import CartTrigger from "components/cart/cart-trigger";
+import LogoNamemark from "components/icons/namemark";
+import type { Cart, Product } from "lib/shopify/types";
+import Link from "next/link";
+import { Suspense, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { MenuModal } from "../menu/modal";
+import { LanguageControl } from "./language-control";
 
-  return (
-    <nav className="relative flex items-center justify-between p-4 lg:px-6">
-      <div className="block flex-none md:hidden">
-        <MobileMenu menu={menu} />
-      </div>
-      <div className="flex w-full items-center">
-        <div className="flex w-full md:w-1/3">
-          <Link
-            href="/"
-            aria-label="Go back home"
-            className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
-          >
-            <LogoSquare />
-            <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
-              {SITE_NAME}
-            </div>
-          </Link>
-          {menu.length ? (
-            <ul className="hidden gap-6 text-sm md:flex md:items-center">
-              {menu.map((item: Menu) => (
-                <li key={item.title}>
-                  <Link
-                    href={item.path}
-                    className="text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-        <div className="hidden justify-center md:flex md:w-1/3">
-          <Search />
-        </div>
-        <div className="flex justify-end md:w-1/3">
-          <Suspense fallback={<OpenCart />}>
-            <Cart />
-          </Suspense>
-        </div>
-      </div>
-    </nav>
-  );
+export default function Navbar({
+	cart,
+	locale,
+	compact,
+	showTop = false,
+	promotedItem,
+}: {
+	cart?: Cart;
+	locale?: string;
+	compact?: boolean;
+	showTop?: boolean;
+	promotedItem?: Product;
+}) {
+	const { ref, inView } = useInView({
+		threshold: 0,
+		initialInView: true,
+	});
+
+	const { setCart } = useCart();
+
+	useEffect(() => {
+		if (cart) {
+			setCart(cart);
+		}
+	}, [cart, setCart]);
+
+	return (
+		<div ref={ref}>
+			{showTop && !inView && (
+				<div className="fixed left-6 top-32 z-20 animate-fadeIn">
+					<Link
+						href="#"
+						className="transition-opacity duration-150 hover:opacity-60"
+					>
+						<span className="flex flex-row items-center space-x-2">
+							<ChevronUpIcon
+								className="h-6 w-6 stroke-subtle transition-colors duration-150 group-hover:stroke-white"
+								strokeWidth={2}
+							/>
+							<span className="text-sm font-medium tracking-wider">TOP</span>
+						</span>
+					</Link>
+				</div>
+			)}
+			<div className="fixed top-0 z-20 w-full bg-dark/90 backdrop-blur-sm">
+				<Transition
+					show={!!ref && !inView}
+					enter="transition ease duration-150 transform"
+					enterFrom="opacity-0 -translate-y-12"
+					enterTo="opacity-100 translate-y-0"
+					leave="transition ease duration-0 transform"
+					leaveFrom="opacity-100"
+					leaveTo="opacity-0"
+				>
+					<div className="mx-auto flex max-w-screen-xl flex-row items-start justify-between">
+						<div className="px-6 py-2">
+							<Link
+								href="/"
+								className="transition-opacity duration-150 hover:opacity-90"
+								aria-label="Go to homepage"
+							>
+								<LogoNamemark className={clsx("w-[180px]", "fill-current")} />
+							</Link>
+						</div>
+						<nav className="flex flex-row items-center space-x-4 px-6">
+							<div className="flex flex-col-reverse items-center justify-center space-y-2 px-2 md:flex-row md:space-x-6">
+								<Suspense>
+									<CartTrigger cart={cart} promotedItem={promotedItem} />
+								</Suspense>
+								<Suspense>
+									<MenuModal scrolled={!inView} />
+								</Suspense>
+							</div>
+						</nav>
+					</div>
+				</Transition>
+			</div>
+			<div
+				className={clsx(
+					"mx-auto flex max-w-screen-xl flex-row items-start justify-between px-6",
+				)}
+			>
+				<div>
+					<Link
+						href="/"
+						className="transition-opacity duration-150 hover:opacity-90"
+						aria-label="Go to homepage"
+					>
+						<LogoNamemark
+							className={clsx(
+								inView && !compact
+									? "min-w-[180px] md:w-[450px] lg:w-[600px]"
+									: "min-w-[180px] md:w-[260px]",
+								"fill-current transition-all duration-150",
+								compact ? "pt-4 md:pt-6" : "pt-4 md:pt-12",
+							)}
+						/>
+					</Link>
+				</div>
+				<nav className="flex flex-row items-center space-x-4 px-2 md:pt-6">
+					<Suspense fallback={null}>
+						<div className="hidden md:block">
+							<LanguageControl lang={locale} />
+						</div>
+						<div className="flex flex-col-reverse items-center justify-center space-y-2 rounded md:flex-row md:space-x-6 md:space-y-0">
+							<Suspense>
+								<CartTrigger cart={cart} promotedItem={promotedItem} />
+							</Suspense>
+							<Suspense>
+								<MenuModal scrolled={!inView} />
+							</Suspense>
+						</div>
+					</Suspense>
+				</nav>
+			</div>
+		</div>
+	);
 }
