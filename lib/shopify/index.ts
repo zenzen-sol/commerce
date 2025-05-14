@@ -590,6 +590,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
 
 	if (isProductUpdate) {
 		revalidateTag(TAGS.products);
+		revalidateTag(TAGS.collections);
 	}
 
 	return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
