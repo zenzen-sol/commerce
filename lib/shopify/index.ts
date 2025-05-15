@@ -611,6 +611,10 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
 			`[Revalidate] Revalidating TAGS.collections for topic: ${topic}`,
 		);
 		revalidateTag(TAGS.collections);
+		console.log(
+			`[Revalidate] Revalidating TAGS.products for collection update topic: ${topic}`,
+		);
+		revalidateTag(TAGS.products);
 		revalidatedSomething = true;
 	}
 

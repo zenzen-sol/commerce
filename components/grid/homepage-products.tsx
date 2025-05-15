@@ -119,12 +119,16 @@ function HomepagePromoItem({
 					/>
 					<div className="font-multilingual block space-y-2 font-extralight">
 						<div>{item?.summary?.value}</div>
-						<div className="inline-flex flex-row items-center space-x-1 opacity-50 transition-opacity duration-150 group-hover:opacity-100">
-							<div>Read more.</div>
-							<div>
+
+						<Link
+							href={`/product/${item.handle}`}
+							className="inline-flex flex-row items-center space-x-1 opacity-50 transition-opacity duration-150 hover:opacity-100"
+						>
+							<span>Read more.</span>
+							<span>
 								<ChevronRightIcon width={16} />
-							</div>
-						</div>
+							</span>
+						</Link>
 					</div>
 				</div>
 			</div>
