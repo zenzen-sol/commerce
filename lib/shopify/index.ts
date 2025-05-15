@@ -571,27 +571,73 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
 	];
 	const topic = (await headers()).get("x-shopify-topic") || "unknown";
 	const secret = req.nextUrl.searchParams.get("secret");
+	const envSecret = process.env.SHOPIFY_REVALIDATION_SECRET;
+
+	console.log(`[Revalidate] Received webhook for topic: ${topic}`);
+	console.log(
+		`[Revalidate] Secret from query: ${secret ? secret.substring(0, 4) + "..." : "Not Provided"}`,
+	); // Log a portion for verification
+	console.log(
+		`[Revalidate] SHOPIFY_REVALIDATION_SECRET from env: ${envSecret ? "Exists" : "MISSING!"}`,
+	);
+
 	const isCollectionUpdate = collectionWebhooks.includes(topic);
 	const isProductUpdate = productWebhooks.includes(topic);
 
-	if (!secret || secret !== process.env.SHOPIFY_REVALIDATION_SECRET) {
-		console.error("Invalid revalidation secret.");
-		return NextResponse.json({ status: 200 });
+	if (!secret || secret !== envSecret) {
+		console.error(
+			`[Revalidate] Invalid revalidation secret. Topic: ${topic}. Provided secret: ${secret ? secret.substring(0, 4) + "..." : "None"}. Matches env var: ${secret === envSecret}`,
+		);
+		// Still return 200 to Shopify, but log the error clearly.
+		return NextResponse.json({
+			status: 200,
+			revalidated: false,
+			error: "Invalid revalidation secret.",
+		});
 	}
 
 	if (!isCollectionUpdate && !isProductUpdate) {
-		// We don't need to revalidate anything for any other topics.
-		return NextResponse.json({ status: 200 });
+		console.log(`[Revalidate] No revalidation needed for topic: ${topic}`);
+		return NextResponse.json({
+			status: 200,
+			revalidated: false,
+			message: "No revalidation needed for this topic.",
+		});
 	}
 
+	let revalidatedSomething = false;
 	if (isCollectionUpdate) {
+		console.log(
+			`[Revalidate] Revalidating TAGS.collections for topic: ${topic}`,
+		);
 		revalidateTag(TAGS.collections);
+		revalidatedSomething = true;
 	}
 
 	if (isProductUpdate) {
+		console.log(`[Revalidate] Revalidating TAGS.products for topic: ${topic}`);
 		revalidateTag(TAGS.products);
+		console.log(
+			`[Revalidate] Revalidating TAGS.collections for product update topic: ${topic}`,
+		);
 		revalidateTag(TAGS.collections);
+		revalidatedSomething = true;
 	}
 
-	return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
+	if (revalidatedSomething) {
+		console.log(`[Revalidate] Revalidation successful for topic: ${topic}`);
+		return NextResponse.json({
+			status: 200,
+			revalidated: true,
+			now: Date.now(),
+		});
+	} // Should not happen if isCollectionUpdate or isProductUpdate is true, but as a fallback.
+	console.log(
+		`[Revalidate] No specific tags revalidated for topic: ${topic}, though it matched a webhook type.`,
+	);
+	return NextResponse.json({
+		status: 200,
+		revalidated: false,
+		message: "No specific tags revalidated.",
+	});
 }
