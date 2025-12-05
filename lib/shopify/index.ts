@@ -60,6 +60,9 @@ import type {
 	ShopifyUpdateCartOperation,
 } from "./types";
 
+const DEFAULT_COUNTRY =
+	process.env.NEXT_PUBLIC_SHOPIFY_DEFAULT_COUNTRY || "JP";
+
 const domain = process.env.SHOPIFY_STORE_DOMAIN
 	? ensureStartsWith(process.env.SHOPIFY_STORE_DOMAIN, "https://")
 	: "";
@@ -498,7 +501,7 @@ export async function getProduct({
 		variables: {
 			handle,
 			language,
-			country,
+			country: country || DEFAULT_COUNTRY,
 		},
 	});
 
@@ -520,7 +523,7 @@ export async function getProductRecommendations({
 		variables: {
 			productId,
 			language,
-			country,
+			country: country || DEFAULT_COUNTRY,
 		},
 	});
 
@@ -548,7 +551,7 @@ export async function getProducts({
 			reverse,
 			sortKey,
 			language,
-			country,
+			country: country || DEFAULT_COUNTRY,
 		},
 	});
 

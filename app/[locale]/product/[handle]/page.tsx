@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { AddManyToCart } from "components/cart/add-many-to-cart";
@@ -13,9 +11,11 @@ import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { getShopifyLocale } from "lib/locales";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image as MediaImage, Product } from "lib/shopify/types";
-import { getLocale } from "next-intl/server";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 export async function generateMetadata(props: {
@@ -23,10 +23,20 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
 	const params = await props.params;
 	const locale = await getLocale();
-	const product: Product | undefined = await getProduct({
-		handle: params.handle,
-		language: getShopifyLocale({ locale }),
-	});
+	let product: Product | undefined;
+	try {
+		product = await getProduct({
+			handle: params.handle,
+			language: getShopifyLocale({ locale }),
+		});
+	} catch (error) {
+		console.error("generateMetadata:getProduct failed", {
+			handle: params.handle,
+			locale,
+			error,
+		});
+		return {};
+	}
 
 	if (!product) return {};
 
@@ -46,15 +56,15 @@ export async function generateMetadata(props: {
 		},
 		openGraph: url
 			? {
-					images: [
-						{
-							url,
-							width,
-							height,
-							alt,
-						},
-					],
-				}
+				images: [
+					{
+						url,
+						width,
+						height,
+						alt,
+					},
+				],
+			}
 			: null,
 	};
 }
@@ -66,10 +76,20 @@ export default async function ProductPage(props: {
 	const locale = await getLocale();
 
 	const numberOfOtherImages = 3;
-	const product = await getProduct({
-		handle: params.handle,
-		language: getShopifyLocale({ locale }),
-	});
+	let product: Product | undefined;
+	try {
+		product = await getProduct({
+			handle: params.handle,
+			language: getShopifyLocale({ locale }),
+		});
+	} catch (error) {
+		console.error("ProductPage:getProduct failed", {
+			handle: params.handle,
+			locale,
+			error,
+		});
+		return notFound();
+	}
 
 	// console.debug({ product });
 
@@ -92,29 +112,27 @@ export default async function ProductPage(props: {
 	// 	});
 	// }
 
-	let otherImages: MediaImage[] = [];
-	if (product) {
-		otherImages = product.images
-			.slice(0, numberOfOtherImages + 1) // +1 to account for featured image
-			.filter((image) => image?.url !== product.featuredImage?.url);
-	}
+	if (!product) return notFound();
+	const safeProduct: Product = product;
 
-	if (!product) return {};
+	const otherImages: MediaImage[] = safeProduct.images
+		.slice(0, numberOfOtherImages + 1) // +1 to account for featured image
+		.filter((image) => image?.url !== safeProduct.featuredImage?.url);
 
 	const productJsonLd = {
 		"@context": "https://schema.org",
 		"@type": "Product",
-		name: product?.title,
-		description: product?.description,
-		image: product?.featuredImage?.url,
+		name: safeProduct.title,
+		description: safeProduct.description,
+		image: safeProduct.featuredImage?.url,
 		offers: {
 			"@type": "AggregateOffer",
-			availability: product?.availableForSale
+			availability: safeProduct.availableForSale
 				? "https://schema.org/InStock"
 				: "https://schema.org/OutOfStock",
-			priceCurrency: product?.priceRange?.minVariantPrice?.currencyCode,
-			highPrice: product?.priceRange?.maxVariantPrice?.amount,
-			lowPrice: product?.priceRange?.minVariantPrice?.amount,
+			priceCurrency: safeProduct.priceRange?.minVariantPrice?.currencyCode,
+			highPrice: safeProduct.priceRange?.maxVariantPrice?.amount,
+			lowPrice: safeProduct.priceRange?.minVariantPrice?.amount,
 		},
 	};
 
