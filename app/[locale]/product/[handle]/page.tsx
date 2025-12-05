@@ -17,16 +17,27 @@ import { getLocale } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata(props: {
 	params: Promise<{ handle: string }>;
 }): Promise<Metadata> {
 	const params = await props.params;
 	const locale = await getLocale();
-	const product: Product | undefined = await getProduct({
-		handle: params.handle,
-		language: getShopifyLocale({ locale }),
-	});
+	let product: Product | undefined;
+	try {
+		product = await getProduct({
+			handle: params.handle,
+			language: getShopifyLocale({ locale }),
+		});
+	} catch (error) {
+		console.error("generateMetadata:getProduct failed", {
+			handle: params.handle,
+			locale,
+			error,
+		});
+		return {};
+	}
 
 	if (!product) return {};
 
@@ -66,10 +77,20 @@ export default async function ProductPage(props: {
 	const locale = await getLocale();
 
 	const numberOfOtherImages = 3;
-	const product = await getProduct({
-		handle: params.handle,
-		language: getShopifyLocale({ locale }),
-	});
+	let product: Product | undefined;
+	try {
+		product = await getProduct({
+			handle: params.handle,
+			language: getShopifyLocale({ locale }),
+		});
+	} catch (error) {
+		console.error("ProductPage:getProduct failed", {
+			handle: params.handle,
+			locale,
+			error,
+		});
+		return notFound();
+	}
 
 	// console.debug({ product });
 
@@ -99,7 +120,7 @@ export default async function ProductPage(props: {
 			.filter((image) => image?.url !== product.featuredImage?.url);
 	}
 
-	if (!product) return {};
+	if (!product) return notFound();
 
 	const productJsonLd = {
 		"@context": "https://schema.org",
