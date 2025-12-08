@@ -23,7 +23,7 @@ function SubmitButton({ pending }: { pending: boolean }) {
 			{pending ? (
 				<LoadingDots className="bg-white" />
 			) : (
-				<XMarkIcon className="mx-[1px] h-4 w-4 text-white transition-opacity duration-150 hover:opacity-60 dark:text-black" />
+				<XMarkIcon className="mx-px h-4 w-4 text-white transition-opacity duration-150 hover:opacity-60 dark:text-black" />
 			)}
 		</button>
 	);

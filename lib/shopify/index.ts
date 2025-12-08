@@ -613,21 +613,21 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
 		console.log(
 			`[Revalidate] Revalidating TAGS.collections for topic: ${topic}`,
 		);
-		revalidateTag(TAGS.collections);
+		revalidateTag(TAGS.collections, "default");
 		console.log(
 			`[Revalidate] Revalidating TAGS.products for collection update topic: ${topic}`,
 		);
-		revalidateTag(TAGS.products);
+		revalidateTag(TAGS.products, "default");
 		revalidatedSomething = true;
 	}
 
 	if (isProductUpdate) {
 		console.log(`[Revalidate] Revalidating TAGS.products for topic: ${topic}`);
-		revalidateTag(TAGS.products);
+		revalidateTag(TAGS.products, "default");
 		console.log(
 			`[Revalidate] Revalidating TAGS.collections for product update topic: ${topic}`,
 		);
-		revalidateTag(TAGS.collections);
+		revalidateTag(TAGS.collections, "default");
 		revalidatedSomething = true;
 	}
 

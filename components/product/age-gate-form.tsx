@@ -20,7 +20,7 @@ const AgeGateForm: FC<AgeGateFormProps> = ({ checkoutUrl, didCancel }) => {
   const t = useTranslations('Index');
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [hasValidDate, setHasValidDate] = useState(false);
+
   const [month, setMonth] = useState<number>();
   const [day, setDay] = useState<number>();
   const [year, setYear] = useState<number>();
@@ -47,7 +47,7 @@ const AgeGateForm: FC<AgeGateFormProps> = ({ checkoutUrl, didCancel }) => {
     }
   };
 
-  useEffect(() => {
+  const hasValidDate = (() => {
     const now = new Date();
     const thresholdDate = new Date(now.getFullYear() - minAge, now.getMonth(), now.getDate());
     const minDate = new Date(now.getFullYear() - maxAge, now.getMonth(), now.getDate());
@@ -55,11 +55,10 @@ const AgeGateForm: FC<AgeGateFormProps> = ({ checkoutUrl, didCancel }) => {
       const date = parse(`${month}-${day}-${year}`, 'MM-dd-yyyy', new Date());
       const oldEnough = isBefore(date, thresholdDate);
       const tooOld = isBefore(date, minDate);
-      setHasValidDate(isValid(date) && oldEnough && !tooOld);
-    } else {
-      setHasValidDate(false);
+      return isValid(date) && oldEnough && !tooOld;
     }
-  }, [month, day, year]);
+    return false;
+  })();
 
   useEffect(() => {
     if (yearFieldRef) {
