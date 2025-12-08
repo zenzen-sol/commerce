@@ -19,7 +19,6 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
-	useRef,
 	useState,
 } from "react";
 import CloseCart from "./close-cart";
@@ -46,10 +45,10 @@ type CartProviderOutboundProps = {
 };
 
 const CartProviderContext = createContext<CartProviderOutboundProps>({
-	setCart: () => {},
-	openCart: () => {},
-	closeCart: () => {},
-	setPromotedItem: () => {},
+	setCart: () => { },
+	openCart: () => { },
+	closeCart: () => { },
+	setPromotedItem: () => { },
 });
 
 export function CartProvider({
@@ -58,45 +57,29 @@ export function CartProvider({
 }: CartProviderInboundProps) {
 	const t = useTranslations("Index");
 
-	const [cart, setCart] = useState<Cart | undefined>(undefined);
+	const [cart, setCartState] = useState<Cart | undefined>(undefined);
 
-	const [isOpen, setIsOpen] = useState(false);
 	const [promotedItem, setPromotedItem] = useState<Product | undefined>(
 		initialPromotedItem,
 	);
 
+	const [isOpen, setIsOpen] = useState(false);
 	const [isConfirming, setIsConfirming] = useState<boolean>(false);
 	const { ageConfirmed } = useAgeConfirmation();
 
-	const quantityRef = useRef(cart?.totalQuantity);
 	const openCart = useCallback(() => setIsOpen(true), []);
 	const closeCart = useCallback(() => setIsOpen(false), []);
 
-	useEffect(() => {
-		// Open cart modal when quantity changes.
-		if (!cart) {
-			return;
-		}
-
-		// Initialize quantityRef if needed
-		if (quantityRef.current === undefined) {
-			quantityRef.current = cart.totalQuantity;
-			// Open cart on first item added
-			if (cart.totalQuantity > 0 && !isOpen) {
+	const setCart = useCallback((nextCart?: Cart) => {
+		setCartState((prev) => {
+			const prevQty = prev?.totalQuantity ?? 0;
+			const nextQty = nextCart?.totalQuantity ?? 0;
+			if (nextQty > 0 && nextQty !== prevQty) {
 				setIsOpen(true);
 			}
-			return;
-		}
-
-		if (cart.totalQuantity > 0 && cart.totalQuantity !== quantityRef.current) {
-			// But only if it's not already open (quantity also changes when editing items in cart).
-			if (!isOpen) {
-				setIsOpen(true);
-			}
-		}
-		// Always update the quantity reference
-		quantityRef.current = cart.totalQuantity;
-	}, [cart, isOpen]);
+			return nextCart;
+		});
+	}, []);
 
 	useEffect(() => {
 		console.debug("[CartProvider] useEffect | promotedItem", promotedItem);
@@ -121,7 +104,7 @@ export function CartProvider({
 			setCart,
 			setPromotedItem,
 		}),
-		[openCart, closeCart],
+		[openCart, closeCart, setCart, setPromotedItem],
 	);
 
 	return (
@@ -237,7 +220,7 @@ export function CartProvider({
 																			{item.merchandise.product.title}
 																		</span>
 																		{item.merchandise.title !==
-																		DEFAULT_OPTION ? (
+																			DEFAULT_OPTION ? (
 																			<p className="text-sm text-white">
 																				{item.merchandise.title}
 																			</p>

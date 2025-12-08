@@ -34,7 +34,7 @@ export default function Footer({
 					"text-sm md:flex-row md:gap-12",
 				)}
 			>
-				<div className="w-full md:min-w-[60%]">
+				<div className="w-full md:w-3/5">
 					<div className="flex flex-col space-y-24">
 						<NewsletterFooter />
 						<div className="hidden flex-row items-end space-x-12 pt-24 md:flex">
@@ -66,7 +66,7 @@ export default function Footer({
 						</div>
 					</div>
 				</div>
-				<div className="w-full md:w-[40%]">
+				<div className="w-full md:w-2/5">
 					<div className="flex w-full flex-row items-end space-x-12 pt-24 md:hidden">
 						<Link
 							href="/"

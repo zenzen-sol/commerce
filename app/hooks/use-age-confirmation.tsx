@@ -1,20 +1,12 @@
-import { useEffect, useState } from 'react';
-
 import Cookies from 'js-cookie';
 
 const COOKIE_NAME = 'age_confirm';
 
 export const useAgeConfirmation = () => {
-  const [ageConfirmed, setAgeConfirmed] = useState(true);
-
-  useEffect(() => {
-    if (!Cookies.get(COOKIE_NAME)) {
-      setAgeConfirmed(false);
-    }
-  }, []);
+  let ageConfirmed = Cookies.get(COOKIE_NAME) === 'confirmed';
 
   const confirmAge = () => {
-    setAgeConfirmed(true);
+    ageConfirmed = true;
     Cookies.set(COOKIE_NAME, 'confirmed', { expires: 365 });
   };
 

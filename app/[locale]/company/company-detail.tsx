@@ -12,17 +12,10 @@ import clsx from "clsx";
 import VideoPlayer from "components/video/video-player";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function CompanyDetail() {
 	const t = useTranslations("Index");
-	const [hasWindow, setHasWindow] = useState(false);
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			setHasWindow(true);
-		}
-	}, []);
-
+	const hasWindow = typeof window !== "undefined";
 	return (
 		<div className="w-full px-6">
 			<div
