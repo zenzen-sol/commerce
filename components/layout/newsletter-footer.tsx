@@ -1,6 +1,14 @@
 "use client";
+
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
+
+const mailchimpHost = process.env.NEXT_PUBLIC_MAILCHIMP_HOST;
+const mailchimpUserId = process.env.NEXT_PUBLIC_MAILCHIMP_USER_ID;
+const mailchimpListId = process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID;
+const hasMailchimpConfig = Boolean(
+	mailchimpHost && mailchimpUserId && mailchimpListId,
+);
 
 export default function NewsletterSignup() {
 	const t = useTranslations("Index");
@@ -15,10 +23,10 @@ export default function NewsletterSignup() {
 					{t("footer.newsletter.promo")}
 				</div>
 			</div>
-			{process?.env?.NEXT_PUBLIC_MAILCHIMP_HOST && (
+			{hasMailchimpConfig && (
 				<form
 					className="space-x-px md:flex"
-					action={`${process?.env?.NEXT_PUBLIC_MAILCHIMP_HOST}/subscribe/post?u=${process?.env?.NEXT_PUBLIC_MAILCHIMP_USER_ID}&amp;id=${process?.env?.NEXT_PUBLIC_MAILCHIMP_LIST_ID}`}
+					action={`${mailchimpHost}/subscribe/post?u=${mailchimpUserId}&id=${mailchimpListId}`}
 					method="post"
 					name="mc-embedded-subscribe-footer-form"
 				>
@@ -28,7 +36,7 @@ export default function NewsletterSignup() {
 					<input
 						type="email"
 						name="EMAIL"
-						id="email-address"
+						id={`email-address-${mailchimpListId}`}
 						autoComplete="email"
 						required
 						className={clsx(
@@ -60,7 +68,7 @@ export default function NewsletterSignup() {
 					>
 						<input
 							type="text"
-							name={`b_${process?.env?.NEXT_PUBLIC_MAILCHIMP_USER_ID}_${process?.env?.NEXT_PUBLIC_MAILCHIMP_LIST_ID}`}
+							name={`b_${mailchimpUserId}_${mailchimpListId}`}
 							defaultValue=""
 							tabIndex={-1}
 						/>
