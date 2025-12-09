@@ -1,10 +1,9 @@
 import clsx from "clsx";
+import CartTrigger from "components/cart/cart-trigger";
 import FacebookIcon from "components/icons/facebook";
 import InstagramIcon from "components/icons/instagram";
 import KanjiLogo from "components/icons/kanji";
 import type { Cart, Product } from "lib/shopify/types";
-
-import CartTrigger from "components/cart/cart-trigger";
 import Link from "next/link";
 import { Suspense } from "react";
 import CompanyName from "./company-name";
